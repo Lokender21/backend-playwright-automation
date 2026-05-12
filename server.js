@@ -140,6 +140,10 @@ app.get('/artifacts/:artifactId/download', (req, res) => {
   res.download(filePath);
 });
 
+app.get('/health', (req, res) => {
+    res.json({ status: 'UP' });
+  });
+
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on ${PORT}`);
   });;

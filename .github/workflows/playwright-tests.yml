@@ -34,14 +34,16 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install chromium
 
-      - name: Run tests
-        run: npx playwright test
-
-
       - name: Start backend server
+        run: node server.js > server.log 2>&1 &
+
+      - name: Wait for server
         run: |
-          node server.js &
-          sleep 5
+          for i in {1..20}; do
+            curl -s http://127.0.0.1:3000/health && exit 0
+            sleep 1
+          done
+          exit 1
 
       - name: Run Playwright tests
         run: npx playwright test
