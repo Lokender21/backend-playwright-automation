@@ -1,0 +1,4 @@
+artifactId=artifact-1778622977963-194
+jobId=job-1778622977963-875
+sourceFile=sample-contract.txt
+result=processed successfully

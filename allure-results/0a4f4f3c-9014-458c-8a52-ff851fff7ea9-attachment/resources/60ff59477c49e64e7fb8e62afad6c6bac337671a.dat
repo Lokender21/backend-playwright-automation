@@ -1,0 +1,8 @@
+------WebKitFormBoundaryV5gXEW4Zyms2HiYO
+content-disposition: form-data; name="file"; filename="sample-contract.txt"
+content-type: text/plain
+
+Customer: Demo Corp
+Document Type: Contract
+Clause: Payment due in 30 days
+------WebKitFormBoundaryV5gXEW4Zyms2HiYO--

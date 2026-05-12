@@ -1,0 +1,28 @@
+Create Job Response: {
+  message: 'Job created',
+  jobId: 'job-1778622873918-405',
+  artifactId: 'artifact-1778622873918-573',
+  status: 'CREATED'
+}
+Upload Response: {
+  message: 'File uploaded successfully',
+  artifactId: 'artifact-1778622873918-573',
+  fileName: 'sample-contract.txt',
+  status: 'PROCESSING'
+}
+Polling Status: PROCESSING
+Polling Status: PROCESSING
+Polling Status: PROCESSING
+Polling Status: COMPLETED
+Artifact Data: {
+  artifactId: 'artifact-1778622873918-573',
+  jobId: 'job-1778622873918-405',
+  inputFileName: 'sample-contract.txt',
+  outputFileName: 'artifact-1778622873918-573-report.txt',
+  status: 'COMPLETED'
+}
+Downloaded Content:
+ artifactId=artifact-1778622873918-573
+jobId=job-1778622873918-405
+sourceFile=sample-contract.txt
+result=processed successfully
