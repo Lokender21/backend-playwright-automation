@@ -140,6 +140,6 @@ app.get('/artifacts/:artifactId/download', (req, res) => {
   res.download(filePath);
 });
 
-app.listen(PORT, () => {
-  console.log(`Dummy API running at http://localhost:${PORT}`);
-});
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on ${PORT}`);
+  });;
