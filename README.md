@@ -1,118 +1,163 @@
-ReN3.ai-style Backend Artifact Automation with Playwright
+# 🎭 ReN3.ai-style Backend Artifact Automation with Playwright
 
-This project simulates a ReN3.ai-style document processing flow where a file is uploaded, processed asynchronously, linked to an artifactId, and then downloaded and validated by an automated Playwright test. Playwright supports API-driven testing through APIRequestContext, multipart file upload, and retry-based polling assertions, which makes it well suited for this scenario.
+> Backend workflow automation with Playwright, not just UI clicks.
 
-What this project demonstrates
-Backend workflow automation with Playwright, not just UI clicks.
+This project simulates a ReN3.ai-style document processing flow where a file is uploaded, processed asynchronously, linked to an artifactId, and then downloaded and validated by an automated Playwright test suite.
 
-Multipart file upload using Playwright request APIs.
+---
 
-Async job polling until completion using Playwright assertions.
+## 🎯 What This Project Demonstrates
 
-Artifact metadata validation using jobId and artifactId.
+- ✅ **Backend workflow automation** with Playwright, not just UI clicks
+- 📤 **Multipart file upload** using Playwright request APIs
+- ⏳ **Async job polling** until completion using Playwright assertions
+- 🔍 **Artifact metadata validation** using jobId and artifactId
+- 📥 **File download and content verification** for generated output
+- 🔄 **GitHub Actions CI execution** using Playwright's CI guidance
 
-File download and content verification for generated output.
+---
 
-GitHub onboarding with CI execution through GitHub Actions using Playwright's CI guidance.
+## 📊 Scenario Covered
 
-Scenario covered :
-The automated flow covers a realistic end-to-end backend use case:
+The automated flow covers a realistic **end-to-end backend use case**:
 
-Create a backend processing job.
+```
+┌─────────────────────────────────────────────────────────┐
+│ 1. Create a backend processing job                       │
+│ 2. Capture the returned jobId and artifactId            │
+│ 3. Upload an input file through a multipart API         │
+│ 4. Poll the backend until job status becomes COMPLETED  │
+│ 5. Fetch artifact metadata                              │
+│ 6. Download the generated artifact                      │
+│ 7. Validate the downloaded file content                 │
+└─────────────────────────────────────────────────────────┘
+```
 
-Capture the returned jobId and artifactId.
+> **Note:** This is intentionally more complex than a CRUD demo because it combines asynchronous processing, file handling, status tracking, and output verification in one test flow.
 
-Upload an input file through a multipart API.
+---
 
-Poll the backend until job status becomes COMPLETED.
+## 🛠️ Tech Stack
 
-Fetch artifact metadata.
+| Component | Purpose |
+|-----------|---------|
+| **Node.js + Express** | Dummy backend API for upload, polling, artifact generation, and download |
+| **Multer** | Multipart file upload handling in the backend |
+| **Playwright** | API automation, polling, and assertions |
+| **GitHub Actions** | CI execution of Playwright tests |
 
-Download the generated artifact.
+---
 
-Validate the downloaded file content.
+## 🔌 API Flow
 
-This is intentionally more complex than a CRUD demo because it combines asynchronous processing, file handling, status tracking, and output verification in one test flow.
-
-Tech stack: 
-
-Component	Purpose
-Node.js + Express	Dummy backend API for upload, polling, artifact generation, and download
-Multer	Multipart file upload handling in the backend.
-Playwright	API automation, polling, and assertions.
-GitHub Actions	CI execution of Playwright tests.
-API flow
 The dummy backend exposes a minimal but meaningful workflow for automation:
 
-GET /health — health check
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/health` | Health check |
+| `POST` | `/jobs` | Create a job and return jobId and artifactId |
+| `POST` | `/artifacts/:artifactId/upload` | Upload input file |
+| `GET` | `/jobs/:jobId` | Poll for async job status |
+| `GET` | `/artifacts/:artifactId` | Fetch artifact metadata |
+| `GET` | `/artifacts/:artifactId/download` | Download generated artifact |
 
-POST /jobs — create a job and return jobId and artifactId
+---
 
-POST /artifacts/:artifactId/upload — upload input file
+## 📁 Project Structure
 
-GET /jobs/:jobId — poll for async job status
-
-GET /artifacts/:artifactId — fetch artifact metadata
-
-GET /artifacts/:artifactId/download — download generated artifact
-
-Project structure
-text
+```
 backendPlaywright-automation/
-├── server.js
-├── package.json
+├── server.js                 # Express backend server
+├── package.json              # Dependencies & scripts
 ├── tests/
-│   └── artifact-flow.spec.js
+│   └── artifact-flow.spec.js # Main Playwright test
 ├── test-data/
-│   └── sample-contract.txt
-├── uploads/
-├── generated/
-├── downloads/
+│   └── sample-contract.txt   # Sample test file
+├── uploads/                  # Uploaded files directory
+├── generated/                # Generated artifacts directory
+├── downloads/                # Downloaded files directory
 └── .github/
-    └── workflows/
-How to run locally
-1. Install dependencies
-bash
+    └── workflows/            # GitHub Actions workflows
+```
+
+---
+
+## 🚀 How to Run Locally
+
+### 1️⃣ Install Dependencies
+
+```bash
 npm install
 npx playwright install
-2. Start the dummy backend
-bash
-node server.js
-The backend should start on port 3000 and expose the health endpoint for local verification.
+```
 
-3. Run the Playwright test
-bash
+### 2️⃣ Start the Dummy Backend
+
+```bash
+node server.js
+```
+
+The backend should start on **port 3000** and expose the health endpoint for local verification:
+```bash
+curl http://localhost:3000/health
+```
+
+### 3️⃣ Run the Playwright Test
+
+```bash
 npx playwright test tests/artifact-flow.spec.js
-What the Playwright test validates
+```
+
+---
+
+## ✨ What the Playwright Test Validates
+
 The automated test performs all core backend checks required for this use case:
 
-Job creation returns valid identifiers.
+| Validation | Details |
+|-----------|---------|
+| **Job Creation** | Returns valid identifiers (jobId & artifactId) |
+| **File Upload** | Succeeds through multipart form data |
+| **Async Polling** | Waits for backend completion using retry logic instead of static sleeps |
+| **Metadata Availability** | Artifact metadata is available after processing |
+| **File Download** | Generated file is downloadable |
+| **Content Verification** | Downloaded content contains expected artifactId, jobId, and processing result |
 
-File upload succeeds through multipart form data.
+---
 
-Polling waits for backend completion using retry logic instead of static sleeps.
+## 🔄 GitHub Actions CI/CD
 
-Artifact metadata is available after processing.
+This project is onboarded to GitHub and executed through GitHub Actions so the workflow can be validated in CI as well as locally. Playwright provides documented CI guidance for running tests in automated environments.
 
-The generated file is downloadable.
+### Typical Workflow Stages:
 
-Downloaded content contains the expected artifactId, jobId, and processing result.
+```
+┌──────────────────────────┐
+│ 1. Checkout repository   │
+├──────────────────────────┤
+│ 2. Setup Node.js         │
+├──────────────────────────┤
+│ 3. Install dependencies  │
+├──────────────────────────┤
+│ 4. Install Playwright    │
+│    browsers              │
+├──────────────────────────┤
+│ 5. Start backend service │
+├──────────────────────────┤
+│ 6. Run test suite        │
+├──────────────────────────┤
+│ 7. Publish test reports  │
+└──────────────────────────┘
+```
 
-GitHub Actions
-This project was onboarded to GitHub and executed through GitHub Actions so the workflow can be validated in CI as well as locally. Playwright provides documented CI guidance for running tests in automation pipelines, including GitHub Actions workflows.
+---
 
-A typical workflow includes:
+## 📝 Notes
 
-Checkout repository
+- This project is a practical example of backend testing beyond simple CRUD operations
+- It demonstrates real-world patterns like async job handling and file processing
+- Perfect for learning Playwright's non-UI automation capabilities
 
-Setup Node.js
+---
 
-Install dependencies
-
-Install Playwright browsers
-
-Start backend service
-
-Run Playwright test suite
-
-Publish test reports or artifacts
+**Made with ❤️ for backend automation testing**
